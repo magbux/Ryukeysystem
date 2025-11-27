@@ -97,20 +97,20 @@ Submit.Parent = Main
 local SubmitCorner = Instance.new("UICorner", Submit)
 SubmitCorner.CornerRadius = UDim.new(0,4)
 
--- Clear Button (with gap from Submit)
-local Clear = Instance.new("TextButton")
-Clear.Size = UDim2.new(0.45,0,0,24)
-Clear.Position = UDim2.new(0.55,0,0,75)
-Clear.BackgroundColor3 = Color3.fromRGB(100,100,100)
-Clear.BackgroundTransparency = 0.5
-Clear.TextColor3 = Color3.fromRGB(240,240,240)
-Clear.Text = "Clear"
-Clear.Font = Enum.Font.GothamSemibold
-Clear.TextSize = 14
-Clear.Parent = Main
+-- Copy Button (replacing Clear, with gap from Submit)
+local CopyButton = Instance.new("TextButton")
+CopyButton.Size = UDim2.new(0.45,0,0,24)
+CopyButton.Position = UDim2.new(0.55,0,0,75)
+CopyButton.BackgroundColor3 = Color3.fromRGB(100,100,100)
+CopyButton.BackgroundTransparency = 0.5
+CopyButton.TextColor3 = Color3.fromRGB(240,240,240)
+CopyButton.Text = "Get Key lol"
+CopyButton.Font = Enum.Font.GothamSemibold
+CopyButton.TextSize = 14
+CopyButton.Parent = Main
 
-local ClearCorner = Instance.new("UICorner", Clear)
-ClearCorner.CornerRadius = UDim.new(0,4)
+local CopyCorner = Instance.new("UICorner", CopyButton)
+CopyCorner.CornerRadius = UDim.new(0,4)
 
 -- Send Roblox Notification
 local function SendNotification(title,text)
@@ -134,6 +134,7 @@ Submit.MouseButton1Click:Connect(function()
     end
 end)
 
-Clear.MouseButton1Click:Connect(function()
-    KeyBox.Text = ""
+CopyButton.MouseButton1Click:Connect(function()
+    setclipboard("roryumaxx")
+    SendNotification("Key Hub", "Key copied to clipboard!")
 end)
