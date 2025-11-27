@@ -1,0 +1,139 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local StarterGui = game:GetService("StarterGui")
+local UserInputService = game:GetService("UserInputService")
+
+-- ScreenGui
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Name = "RyuKeyHub"
+ScreenGui.ResetOnSpawn = false
+ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+-- Main Frame
+local Main = Instance.new("Frame")
+Main.Size = UDim2.new(0, 180, 0, 120)
+Main.Position = UDim2.new(0.5, -90, 0.5, -60)
+Main.BackgroundColor3 = Color3.fromRGB(50,50,50)
+Main.BackgroundTransparency = 0.5
+Main.BorderSizePixel = 0
+Main.Parent = ScreenGui
+
+-- Minimal corner rounding
+local MainCorner = Instance.new("UICorner", Main)
+MainCorner.CornerRadius = UDim.new(0, 6)
+
+-- Draggable Title Bar
+local TitleBar = Instance.new("TextLabel")
+TitleBar.Size = UDim2.new(1, 0, 0, 22)
+TitleBar.Position = UDim2.new(0, 0, 0, 0)
+TitleBar.BackgroundColor3 = Color3.fromRGB(70,70,70)
+TitleBar.BackgroundTransparency = 0.5
+TitleBar.Text = "Ryu/Sai key system"
+TitleBar.TextColor3 = Color3.fromRGB(240,240,240)
+TitleBar.Font = Enum.Font.GothamSemibold
+TitleBar.TextSize = 14
+TitleBar.Parent = Main
+
+-- Minimal rounding
+local TitleCorner = Instance.new("UICorner", TitleBar)
+TitleCorner.CornerRadius = UDim.new(0,4)
+
+-- Draggable functionality
+local dragging = false
+local dragInput, mousePos, framePos
+TitleBar.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        mousePos = input.Position
+        framePos = Main.Position
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
+TitleBar.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.Touch or input.UserInputType == Enum.UserInputType.MouseMovement then
+        dragInput = input
+    end
+end)
+UserInputService.InputChanged:Connect(function(input)
+    if input == dragInput and dragging then
+        local delta = input.Position - mousePos
+        Main.Position = UDim2.new(framePos.X.Scale, framePos.X.Offset + delta.X, framePos.Y.Scale, framePos.Y.Offset + delta.Y)
+    end
+end)
+
+-- Key Entry TextBox
+local KeyBox = Instance.new("TextBox")
+KeyBox.Size = UDim2.new(0.8,0,0,24)
+KeyBox.Position = UDim2.new(0.1,0,0,40)
+KeyBox.BackgroundColor3 = Color3.fromRGB(80,80,80)
+KeyBox.BackgroundTransparency = 0.5
+KeyBox.TextColor3 = Color3.fromRGB(240,240,240)
+KeyBox.PlaceholderText = ""
+KeyBox.ClearTextOnFocus = true
+KeyBox.Font = Enum.Font.GothamSemibold
+KeyBox.TextSize = 14
+KeyBox.Text = ""
+KeyBox.Parent = Main
+
+local BoxCorner = Instance.new("UICorner", KeyBox)
+BoxCorner.CornerRadius = UDim.new(0,4)
+
+-- Submit Button
+local Submit = Instance.new("TextButton")
+Submit.Size = UDim2.new(0.45,0,0,24)
+Submit.Position = UDim2.new(0,0,0,75)
+Submit.BackgroundColor3 = Color3.fromRGB(100,100,100)
+Submit.BackgroundTransparency = 0.5
+Submit.TextColor3 = Color3.fromRGB(240,240,240)
+Submit.Text = "Submit"
+Submit.Font = Enum.Font.GothamSemibold
+Submit.TextSize = 14
+Submit.Parent = Main
+
+local SubmitCorner = Instance.new("UICorner", Submit)
+SubmitCorner.CornerRadius = UDim.new(0,4)
+
+-- Clear Button (with gap from Submit)
+local Clear = Instance.new("TextButton")
+Clear.Size = UDim2.new(0.45,0,0,24)
+Clear.Position = UDim2.new(0.55,0,0,75)
+Clear.BackgroundColor3 = Color3.fromRGB(100,100,100)
+Clear.BackgroundTransparency = 0.5
+Clear.TextColor3 = Color3.fromRGB(240,240,240)
+Clear.Text = "Clear"
+Clear.Font = Enum.Font.GothamSemibold
+Clear.TextSize = 14
+Clear.Parent = Main
+
+local ClearCorner = Instance.new("UICorner", Clear)
+ClearCorner.CornerRadius = UDim.new(0,4)
+
+-- Send Roblox Notification
+local function SendNotification(title,text)
+    StarterGui:SetCore("SendNotification",{
+        Title = title;
+        Text = text;
+        Duration = 3;
+        Icon = "";
+    })
+end
+
+-- Button Functions
+Submit.MouseButton1Click:Connect(function()
+    local key = KeyBox.Text
+    if key == "roryumaxx" then
+        SendNotification("Key Hub", "Right Key!")
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio/refs/heads/main/ryusai", true))()
+        ScreenGui:Destroy()
+    else
+        SendNotification("Key Hub", "Wrong Key!")
+    end
+end)
+
+Clear.MouseButton1Click:Connect(function()
+    KeyBox.Text = ""
+end)
