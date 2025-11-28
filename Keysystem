@@ -97,7 +97,7 @@ Submit.Parent = Main
 local SubmitCorner = Instance.new("UICorner", Submit)
 SubmitCorner.CornerRadius = UDim.new(0,4)
 
--- Copy Button (replacing Clear, with gap from Submit)
+-- Copy Button
 local CopyButton = Instance.new("TextButton")
 CopyButton.Size = UDim2.new(0.45,0,0,24)
 CopyButton.Position = UDim2.new(0.55,0,0,75)
@@ -122,13 +122,97 @@ local function SendNotification(title,text)
     })
 end
 
+-- Create Option GUI
+local function CreateOptionGUI()
+    local OptionScreenGui = Instance.new("ScreenGui")
+    OptionScreenGui.Name = "RyuOptionHub"
+    OptionScreenGui.ResetOnSpawn = false
+    OptionScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
+
+    local OptionMain = Instance.new("Frame")
+    OptionMain.Size = UDim2.new(0, 200, 0, 140)
+    OptionMain.Position = UDim2.new(0.5, -100, 0.5, -70)
+    OptionMain.BackgroundColor3 = Color3.fromRGB(50,50,50)
+    OptionMain.BackgroundTransparency = 0.5
+    OptionMain.BorderSizePixel = 0
+    OptionMain.Parent = OptionScreenGui
+
+    local OptionCorner = Instance.new("UICorner", OptionMain)
+    OptionCorner.CornerRadius = UDim.new(0, 6)
+
+    local OptionTitleBar = Instance.new("TextLabel")
+    OptionTitleBar.Size = UDim2.new(1, 0, 0, 22)
+    OptionTitleBar.Position = UDim2.new(0, 0, 0, 0)
+    OptionTitleBar.BackgroundColor3 = Color3.fromRGB(70,70,70)
+    OptionTitleBar.BackgroundTransparency = 0.5
+    OptionTitleBar.Text = "Select Hub"
+    OptionTitleBar.TextColor3 = Color3.fromRGB(240,240,240)
+    OptionTitleBar.Font = Enum.Font.GothamSemibold
+    OptionTitleBar.TextSize = 14
+    OptionTitleBar.Parent = OptionMain
+
+    local OptionTitleCorner = Instance.new("UICorner", OptionTitleBar)
+    OptionTitleCorner.CornerRadius = UDim.new(0, 4)
+
+    local function CreateButton(text, position, callback)
+        local button = Instance.new("TextButton")
+        button.Size = UDim2.new(0.9, 0, 0, 24)
+        button.Position = UDim2.new(0.05, 0, 0, position)
+        button.BackgroundColor3 = Color3.fromRGB(100,100,100)
+        button.BackgroundTransparency = 0.5
+        button.TextColor3 = Color3.fromRGB(240,240,240)
+        button.Text = text
+        button.Font = Enum.Font.GothamSemibold
+        button.TextSize = 12
+        button.Parent = OptionMain
+
+        local buttonCorner = Instance.new("UICorner", button)
+        buttonCorner.CornerRadius = UDim.new(0, 4)
+
+        button.MouseButton1Click:Connect(callback)
+        return button
+    end
+
+    CreateButton("ryusai with auto load", 30, function()
+        SendNotification("Hub", "Loading Ryusai with AutoLoad...")
+        getgenv().AP_AutoLoad = game.PlaceId
+        local qot = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
+        if qot then
+            pcall(function()
+                qot('loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio/refs/heads/main/ryusai"))()')
+            end)
+        end
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio/refs/heads/main/ryusai", true))()
+        ScreenGui:Destroy()
+        OptionScreenGui:Destroy()
+    end)
+
+    CreateButton("ryusai without auto load", 60, function()
+        SendNotification("Hub", "Loading Ryusai...")
+        getgenv().AP_AutoLoad = nil
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio-without-load/refs/heads/main/no%20auto%20load%20yippe", true))()
+        ScreenGui:Destroy()
+        OptionScreenGui:Destroy()
+    end)
+
+    CreateButton("ryusai command hub", 90, function()
+        SendNotification("Hub", "Loading Command Hub...")
+        getgenv().AP_AutoLoad = nil
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryu-command-hub/refs/heads/main/ryu%20commandment", true))()
+        ScreenGui:Destroy()
+        OptionScreenGui:Destroy()
+    end)
+end
+
 -- Button Functions
 Submit.MouseButton1Click:Connect(function()
     local key = KeyBox.Text
     if key == "roryumaxx" then
         SendNotification("Key Hub", "Right Key!")
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio/refs/heads/main/ryusai", true))()
-        ScreenGui:Destroy()
+        Main:TweenSize(UDim2.new(0, 180, 0, 0), Enum.EasingDirection.In, Enum.EasingStyle.Quad, 0.3, true)
+        wait(0.3)
+        Main.Visible = false
+        CreateOptionGUI()
     else
         SendNotification("Key Hub", "Wrong Key!")
     end
