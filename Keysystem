@@ -234,20 +234,12 @@ local function LoadOldUI()
             button.MouseButton1Click:Connect(callback)
             return button
         end
-        CreateButton("ryusai with auto load", 30, function()
-            SendNotification("Hub", "Loading Ryusai with AutoLoad...")
-            getgenv().AP_AutoLoad = game.PlaceId
-            local qot = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-            if qot then
-                pcall(function()
-                    qot('loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio/refs/heads/main/ryusai"))()')
-                end)
-            end
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio/refs/heads/main/ryusai", true))()
-            ScreenGui:Destroy()
-            OptionScreenGui:Destroy()
-        end)
-        CreateButton("ryusai without auto load", 60, function()
+    CreateButton("ryusai's new project", function()
+        SendNotification("Hub", "Loading...")
+        getgenv().AP_AutoLoad = nil
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio20xbMnIk666/refs/heads/main/yoyoryusaihub"))()
+    end)
+        CreateButton("ryusai", 60, function()
             SendNotification("Hub", "Loading Ryusai...")
             getgenv().AP_AutoLoad = nil
             loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio-without-load/refs/heads/main/no%20auto%20load%20yippe", true))()
@@ -509,7 +501,7 @@ local function CreateOptionGUI()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio20xbMnIk666/refs/heads/main/yoyoryusaihub"))()
     end)
 
-    CreateButton("Ryusai without Auto Load", function()
+    CreateButton("Ryusai", function()
         SendNotification("Hub", "Loading Ryusai...")
         getgenv().AP_AutoLoad = nil
         loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio-without-load/refs/heads/main/no%20auto%20load%20yippe", true))()
