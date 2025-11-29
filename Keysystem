@@ -503,16 +503,10 @@ local function CreateOptionGUI()
         return button
     end
 
-    CreateButton("Ryusai with Auto Load", function()
-        SendNotification("Hub", "Loading Ryusai with AutoLoad...")
-        getgenv().AP_AutoLoad = game.PlaceId
-        local qot = queue_on_teleport or (syn and syn.queue_on_teleport) or (fluxus and fluxus.queue_on_teleport)
-        if qot then
-            pcall(function()
-                qot('loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio/refs/heads/main/ryusai"))()')
-            end)
-        end
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio/refs/heads/main/ryusai", true))()
+    CreateButton("ryusai's new project", function()
+        SendNotification("Hub", "Loading...")
+        getgenv().AP_AutoLoad = nil
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio20xbMnIk666/refs/heads/main/yoyoryusaihub"))()
     end)
 
     CreateButton("Ryusai without Auto Load", function()
