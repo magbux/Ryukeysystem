@@ -3,7 +3,6 @@ local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
-
 -- Helper function to create rounded corners
 local function AddCorner(instance, radius)
     local corner = Instance.new("UICorner")
@@ -11,7 +10,6 @@ local function AddCorner(instance, radius)
     corner.Parent = instance
     return corner
 end
-
 -- Helper function to add stroke
 local function AddStroke(instance, color, transparency)
     local stroke = Instance.new("UIStroke")
@@ -20,7 +18,6 @@ local function AddStroke(instance, color, transparency)
     stroke.Parent = instance
     return stroke
 end
-
 -- Helper function to add gradient
 local function AddGradient(instance, color1, color2)
     local gradient = Instance.new("UIGradient")
@@ -28,7 +25,6 @@ local function AddGradient(instance, color1, color2)
     gradient.Parent = instance
     return gradient
 end
-
 -- Helper function for draggable frames
 local function MakeDraggable(titleBar, frame)
     local dragging = false
@@ -57,7 +53,6 @@ local function MakeDraggable(titleBar, frame)
         end
     end)
 end
-
 -- Helper function for button hover effect
 local function AddHoverEffect(button, originalColor, hoverColor)
     button.MouseEnter:Connect(function()
@@ -67,7 +62,6 @@ local function AddHoverEffect(button, originalColor, hoverColor)
         TweenService:Create(button, TweenInfo.new(0.2), {BackgroundColor3 = originalColor}):Play()
     end)
 end
-
 -- Send Roblox Notification
 local function SendNotification(title, text, duration)
     StarterGui:SetCore("SendNotification", {
@@ -77,13 +71,11 @@ local function SendNotification(title, text, duration)
         Icon = "";
     })
 end
-
 -- ScreenGui
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "RyusaiKeyHub"
 ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = LocalPlayer:WaitForChild("PlayerGui")
-
 -- Main Frame (Smaller size)
 local Main = Instance.new("Frame")
 Main.Size = UDim2.new(0, 180, 0, 140) -- Made smaller
@@ -96,7 +88,6 @@ Main.Visible = false -- Start hidden for animation
 AddCorner(Main)
 AddGradient(Main, Color3.fromRGB(20, 20, 20), Color3.fromRGB(0, 0, 0)) -- Darker black gradient
 AddStroke(Main, Color3.fromRGB(50, 50, 50), 0.7)
-
 -- Title Bar (Gray)
 local TitleBar = Instance.new("TextLabel")
 TitleBar.Size = UDim2.new(1, 0, 0, 28) -- Slightly smaller
@@ -110,7 +101,6 @@ TitleBar.Parent = Main
 AddCorner(TitleBar, 6)
 AddGradient(TitleBar, Color3.fromRGB(160, 160, 160), Color3.fromRGB(96, 96, 96)) -- Gray gradient
 MakeDraggable(TitleBar, Main)
-
 -- Close Button
 local CloseButton = Instance.new("TextButton")
 CloseButton.Size = UDim2.new(0, 20, 0, 20) -- Smaller
@@ -127,7 +117,6 @@ CloseButton.MouseButton1Click:Connect(function()
     ScreenGui:Destroy()
 end)
 AddHoverEffect(CloseButton, Color3.fromRGB(128, 128, 128), Color3.fromRGB(200, 50, 50))
-
 -- Key Entry TextBox
 local KeyBox = Instance.new("TextBox")
 KeyBox.Size = UDim2.new(0.9, 0, 0, 28) -- Smaller
@@ -144,7 +133,6 @@ KeyBox.Text = ""
 KeyBox.Parent = Main
 AddCorner(KeyBox, 6)
 AddStroke(KeyBox, Color3.fromRGB(50, 50, 50), 0.8)
-
 -- Status Label
 local StatusLabel = Instance.new("TextLabel")
 StatusLabel.Size = UDim2.new(0.9, 0, 0, 18) -- Smaller
@@ -155,7 +143,6 @@ StatusLabel.TextColor3 = Color3.fromRGB(255, 100, 100)
 StatusLabel.Font = Enum.Font.Gotham
 StatusLabel.TextSize = 10 -- Smaller text
 StatusLabel.Parent = Main
-
 -- Buttons Frame
 local ButtonsFrame = Instance.new("Frame")
 ButtonsFrame.Size = UDim2.new(1, 0, 0, 28) -- Smaller
@@ -168,7 +155,6 @@ UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 UIListLayout.Padding = UDim.new(0, 6) -- Smaller padding
 UIListLayout.Parent = ButtonsFrame
-
 -- Submit Button
 local Submit = Instance.new("TextButton")
 Submit.Size = UDim2.new(0.45, 0, 1, 0) -- Adjusted for smaller frame
@@ -182,7 +168,6 @@ Submit.Parent = ButtonsFrame
 AddCorner(Submit, 6)
 AddGradient(Submit, Color3.fromRGB(20, 20, 20), Color3.fromRGB(0, 0, 0))
 AddHoverEffect(Submit, Color3.fromRGB(0, 0, 0), Color3.fromRGB(30, 30, 30))
-
 -- Copy Button (Gray)
 local CopyButton = Instance.new("TextButton")
 CopyButton.Size = UDim2.new(0.45, 0, 1, 0) -- Adjusted for smaller frame
@@ -196,11 +181,9 @@ CopyButton.Parent = ButtonsFrame
 AddCorner(CopyButton, 6)
 AddGradient(CopyButton, Color3.fromRGB(160, 160, 160), Color3.fromRGB(96, 96, 96))
 AddHoverEffect(CopyButton, Color3.fromRGB(128, 128, 128), Color3.fromRGB(160, 160, 160))
-
 -- Animate Main Frame appearance
 Main.Visible = true
 TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = UDim2.new(0, 180, 0, 140)}):Play()
-
 -- Create Option GUI (Also made smaller and black/gray theme)
 local function CreateOptionGUI()
     local OptionScreenGui = Instance.new("ScreenGui")
@@ -293,6 +276,11 @@ local function CreateOptionGUI()
         getgenv().AP_AutoLoad = nil
         loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryu-command-hub/refs/heads/main/ryu%20commandment", true))()
     end)
+    CreateButton(" Ryusai Shader Hub", function()
+        SendNotification("Hub", "Loading Shader Hub...")
+        getgenv().AP_AutoLoad = nil
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/shader-hub-lala/refs/heads/main/shader%20hub"))()
+    end)
     -- Padding for layout
     local Padding = Instance.new("UIPadding")
     Padding.PaddingTop = UDim.new(0, 8)
@@ -302,7 +290,6 @@ local function CreateOptionGUI()
     OptionMain.Visible = true
     TweenService:Create(OptionMain, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = UDim2.new(0, 200, 0, 160)}):Play()
 end
-
 -- Button Functions
 Submit.MouseButton1Click:Connect(function()
     local key = KeyBox.Text:match("^%s*(.-)%s*$") -- Trim spaces
@@ -327,7 +314,6 @@ Submit.MouseButton1Click:Connect(function()
         TweenService:Create(Main, TweenInfo.new(0.05), {Position = originalPos}):Play()
     end
 end)
-
 CopyButton.MouseButton1Click:Connect(function()
     setclipboard("ryusai..?/(0")
     SendNotification("Key Hub", "Key copied to clipboard!", 2)
