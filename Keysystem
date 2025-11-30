@@ -283,7 +283,7 @@ local function CreateOptionGUI()
         getgenv().AP_AutoLoad = nil
         loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio20xbMnIk666/refs/heads/main/yoyoryusaihub"))()
     end)
-    CreateButton("Ryusai", function()
+    CreateButton("Ryusai Fluent Version", function()
         SendNotification("Hub", "Loading Ryusai...")
         getgenv().AP_AutoLoad = nil
         loadstring(game:HttpGet("https://raw.githubusercontent.com/magbux/ryurakio-without-load/refs/heads/main/no%20auto%20load%20yippe", true))()
