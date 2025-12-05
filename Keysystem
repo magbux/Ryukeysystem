@@ -3,10 +3,8 @@ local LocalPlayer = Players.LocalPlayer
 local StarterGui = game:GetService("StarterGui")
 local UserInputService = game:GetService("UserInputService")
 local TweenService = game:GetService("TweenService")
+local CoreGui = game:GetService("CoreGui")
 
--- ============================================================================
--- HTTP & Compatibility
--- ============================================================================
 local function HttpGet(url)
     local success, result
     if syn and syn.request then
@@ -23,9 +21,6 @@ local function HttpGet(url)
     return success and result or nil
 end
 
--- ============================================================================
--- UI Helpers
--- ============================================================================
 local function AddCorner(instance, radius)
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, radius or 8)
@@ -40,14 +35,6 @@ local function AddStroke(instance, color, transparency, thickness)
     stroke.Thickness = thickness or 1
     stroke.Parent = instance
     return stroke
-end
-
-local function AddGradient(instance, color1, color2, rotation)
-    local gradient = Instance.new("UIGradient")
-    gradient.Color = ColorSequence.new(color1 or Color3.fromRGB(60, 60, 60), color2 or Color3.fromRGB(40, 40, 40))
-    gradient.Rotation = rotation or 90
-    gradient.Parent = instance
-    return gradient
 end
 
 local function MakeDraggable(titleBar, frame)
@@ -100,9 +87,6 @@ local function SendNotification(title, text, duration)
     end)
 end
 
--- ============================================================================
--- Color Palette - Gray & Transparent
--- ============================================================================
 local Colors = {
     Primary = Color3.fromRGB(80, 80, 80),
     Secondary = Color3.fromRGB(100, 100, 100),
@@ -114,9 +98,6 @@ local Colors = {
     Success = Color3.fromRGB(150, 200, 150),
 }
 
--- ============================================================================
--- Key Configuration
--- ============================================================================
 local VALID_KEYS = {
     "admin123",
     "secretkey!",
@@ -132,9 +113,6 @@ local function ValidateKey(input)
     return false
 end
 
--- ============================================================================
--- Main Key Hub GUI
--- ============================================================================
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Name = "RyusaiKeyHub"
 ScreenGui.ResetOnSpawn = false
@@ -151,7 +129,6 @@ Main.Visible = false
 AddCorner(Main, 12)
 AddStroke(Main, Colors.Accent, 0.5, 1.5)
 
--- Title Bar
 local TitleBar = Instance.new("TextLabel")
 TitleBar.Size = UDim2.new(1, 0, 0, 35)
 TitleBar.BackgroundColor3 = Colors.Secondary
@@ -164,7 +141,6 @@ TitleBar.Parent = Main
 AddCorner(TitleBar, 12)
 MakeDraggable(TitleBar, Main)
 
--- Close Button
 local CloseButton = Instance.new("TextButton")
 CloseButton.Size = UDim2.new(0, 24, 0, 24)
 CloseButton.Position = UDim2.new(1, -30, 0, 5)
@@ -183,7 +159,6 @@ CloseButton.MouseButton1Click:Connect(function()
 end)
 AddHoverEffect(CloseButton, Colors.Error, Color3.fromRGB(220, 120, 120))
 
--- Key Entry TextBox
 local KeyBox = Instance.new("TextBox")
 KeyBox.Size = UDim2.new(0.85, 0, 0, 28)
 KeyBox.Position = UDim2.new(0.075, 0, 0, 42)
@@ -200,7 +175,6 @@ KeyBox.Parent = Main
 AddCorner(KeyBox, 8)
 AddStroke(KeyBox, Colors.Accent, 0.5, 1)
 
--- Status Label
 local StatusLabel = Instance.new("TextLabel")
 StatusLabel.Size = UDim2.new(0.85, 0, 0, 14)
 StatusLabel.Position = UDim2.new(0.075, 0, 0, 75)
@@ -211,7 +185,6 @@ StatusLabel.Font = Enum.Font.Gotham
 StatusLabel.TextSize = 10
 StatusLabel.Parent = Main
 
--- Buttons Frame
 local ButtonsFrame = Instance.new("Frame")
 ButtonsFrame.Size = UDim2.new(1, 0, 0, 32)
 ButtonsFrame.Position = UDim2.new(0, 0, 0, 95)
@@ -225,7 +198,6 @@ UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
 UIListLayout.Padding = UDim.new(0, 6)
 UIListLayout.Parent = ButtonsFrame
 
--- Submit Button
 local Submit = Instance.new("TextButton")
 Submit.Size = UDim2.new(0.42, 0, 1, -4)
 Submit.BackgroundColor3 = Colors.Accent
@@ -238,7 +210,6 @@ Submit.Parent = ButtonsFrame
 AddCorner(Submit, 8)
 AddHoverEffect(Submit, Colors.Accent, Color3.fromRGB(140, 140, 140))
 
--- Get Key Button
 local CopyButton = Instance.new("TextButton")
 CopyButton.Size = UDim2.new(0.42, 0, 1, -4)
 CopyButton.BackgroundColor3 = Colors.Secondary
@@ -252,14 +223,10 @@ AddCorner(CopyButton, 8)
 AddStroke(CopyButton, Colors.Accent, 0.6, 1)
 AddHoverEffect(CopyButton, Colors.Secondary, Color3.fromRGB(110, 110, 110))
 
--- Animation on load
 Main.Visible = true
 Main.Size = UDim2.new(0, 200, 0, 0)
 TweenService:Create(Main, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = UDim2.new(0, 200, 0, 140)}):Play()
 
--- ============================================================================
--- Option GUI (Hub Selection)
--- ============================================================================
 local function CreateOptionGUI()
     local OptionScreenGui = Instance.new("ScreenGui")
     OptionScreenGui.Name = "RyusaiOptionHub"
@@ -362,15 +329,12 @@ local function CreateOptionGUI()
     CreateButton("Fluent Version", "https://raw.githubusercontent.com/magbux/ryurakio-without-load/refs/heads/main/no%20auto%20load%20yippe")
     CreateButton("Command Hub", "https://raw.githubusercontent.com/magbux/ryu-command-hub/refs/heads/main/ryu%20commandment")
     CreateButton("Shader Hub", "https://raw.githubusercontent.com/magbux/shader-hub-lala/refs/heads/main/shader%20hub")
+    CreateButton("Unknown Hub", "https://raw.githubusercontent.com/magbux/Unknown-hub/refs/heads/main/Unknown%20hub")
 
-    -- Animate appearance
     OptionMain.Visible = true
-    TweenService:Create(OptionMain, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = UDim2.new(0, 200, 0, 180)}):Play()
+    TweenService:Create(OptionMain, TweenInfo.new(0.5, Enum.EasingStyle.Back, Enum.EasingDirection.Out), {Size = UDim2.new(0, 200, 0, 210)}):Play()
 end
 
--- ============================================================================
--- Button Functions
--- ============================================================================
 Submit.MouseButton1Click:Connect(function()
     local key = KeyBox.Text:match("^%s*(.-)%s*$")
 
